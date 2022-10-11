@@ -1,0 +1,5 @@
+Encoded
+Puzzle
+Solver
+In
+Rust

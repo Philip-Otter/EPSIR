@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EPSIR</title>
+
+    <style>
+        /* Ids */
+        #headerBar{
+            background-color: #ffe502;
+            color:#ff3000;
+        }
+
+        #userInput{
+            text-align: center;
+        }
+
+        body{
+            background-color: #000e80;
+            color: white;
+        }
+
+        b{
+        color:#ff3000;
+        }
+
+        form{
+            padding-top: 30vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="headerBar">
+        <h1 style="text-align:center;">EPSIR</h1>
+    </div>
+    <div id="userInput">
+        <p>
+            Welcome to <b>EPSIR</b>, an <b>e</b>ncoded <b>p</b>uzzle <b>s</b>olver written <b>i</b>n the <b>r</b>ust
+            programming language.
+        </p>
+        <p>
+            Please input the encoded text below and let <b>EPSIR</b> do its thing.
+        </p>
+        <form>
+            <input type="text" id="encoded">
+            <input type="submit" id="submit_encoded" value="Decode">
+        </form>
+    </div>
+</body>
+
+</html>
