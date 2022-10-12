@@ -50,8 +50,41 @@
             .take_while(|line| !line.is_empty())  // I think this is why we can't currently POST
             .collect();
         
-        println!("{}{:#?}",("Request:  ").cyan(), http_request);
+        let request_line: &str = &http_request[0];
+
+        // Sanity Check
+        println!("{}{:?}\n",("Request Line").cyan(), request_line);
+        println!("{}{:#?}\n",("Request:  ").cyan(), http_request);
+
+        // Determines our response based on the request header
+        match request_line{
+            "GET / HTTP/1.1" =>{
+                println!("{}{}",("Match case:  ").cyan(),("'Get / HTTP/1.1'").blue());  // Sanity Check
+
+                let contents = fs::read_to_string("index.html").unwrap();
+                let length = contents.len();
+                let status = "HTTP/1.1 200 OK";
         
+                let response =   // This should only be the response to "127.0.0.1:3000"
+                    format!("{status}\r\nContent-Length: {length}\r\n{contents}");
+        
+                stream.write_all(response.as_bytes()).unwrap();
+            },
+            _ =>{
+                println!("{}",("Failed to match request header").red());
+
+                let contents = fs::read_to_string("404.html").unwrap();
+                let length = contents.len();
+                let status = "HTTP/1.1 404 NOT FOUND";
+        
+                let response =   // This should only be the response to "127.0.0.1:3000"
+                    format!("{status}\r\nContent-Length: {length}\r\n{contents}");
+        
+                stream.write_all(response.as_bytes()).unwrap();                
+            }
+        };
+        
+        /*
         let contents = fs::read_to_string("index.html").unwrap();
         let length = contents.len();
         let status = "HTTP/1.1 200 ok";
@@ -60,6 +93,7 @@
             format!("{status}\r\nContent-Length: {length}\r\n{contents}");
 
         stream.write_all(response.as_bytes()).unwrap();
+        */
     }
 
  }
