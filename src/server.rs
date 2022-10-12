@@ -15,23 +15,23 @@
         net::{TcpListener,TcpStream},
         io::{prelude::*,BufReader},
     };
-    use webbrowser::open;
+    use webbrowser;
 
 
     pub fn launch_server(){
         let addr = "127.0.0.1:3000";
         let protocol = "http://";
-        let urlRaw = format!("{}{}",protocol,addr);
-        let url = urlRaw.as_str();
+        let url_raw = format!("{}{}",protocol,addr);
+        let url = url_raw.as_str();
         
         // Sanity Check
         println!("Attempted address:  {}", format!("{}{}",protocol,addr).as_str());
-        println!("urlRaw: {}",urlRaw);
+        println!("url_raw: {}",url_raw);
         println!("url:  {}",url);
 
         let listener = TcpListener::bind(addr).unwrap();
 
-        println!("{}", webbrowser::open(url).is_ok());  // Sanity check in console bool value
+        println!("{:?}", webbrowser::open(url).is_ok());  // Sanity check in console bool value
 
         for stream in listener.incoming(){
             let stream = stream.unwrap();
