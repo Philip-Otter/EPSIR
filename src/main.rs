@@ -1,6 +1,4 @@
 /* 
- * The logic portion of our program.
- * 
  * Created by Philip Otter
  * October 2022
  */
