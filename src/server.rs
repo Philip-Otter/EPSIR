@@ -70,17 +70,6 @@
                 determine_request("404.html", stream)
             },
         };
-        
-        /*
-        let contents = fs::read_to_string("index.html").unwrap();
-        let length = contents.len();
-        let status = "HTTP/1.1 200 ok";
-
-        let response =   // This should only be the response to "127.0.0.1:3000"
-            format!("{status}\r\nContent-Length: {length}\r\n{contents}");
-
-        stream.write_all(response.as_bytes()).unwrap();
-        */
     }
 
 
