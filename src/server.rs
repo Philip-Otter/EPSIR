@@ -60,28 +60,15 @@
         match request_line{
             "GET / HTTP/1.1" =>{
                 println!("{}{}",("Match case:  ").cyan(),("'Get / HTTP/1.1'").blue());  // Sanity Check
-
-                let contents = fs::read_to_string("index.html").unwrap();
-                let length = contents.len();
-                let status = "HTTP/1.1 200 OK";
-        
-                let response =   // This should only be the response to "127.0.0.1:3000"
-                    format!("{status}\r\nContent-Length: {length}\r\n{contents}");
-        
-                stream.write_all(response.as_bytes()).unwrap();
+                determine_request("index.html", stream)
             },
-            _ =>{
-                println!("{}",("Failed to match request header").red());
-
-                let contents = fs::read_to_string("404.html").unwrap();
-                let length = contents.len();
-                let status = "HTTP/1.1 404 NOT FOUND";
-        
-                let response =   // This should only be the response to "127.0.0.1:3000"
-                    format!("{status}\r\nContent-Length: {length}\r\n{contents}");
-        
-                stream.write_all(response.as_bytes()).unwrap();                
+            "GET /favicon.ico HTTP/1.1" =>{
+                println!("{}",("\n\nDo Nothing\nClient Requesting Favicon.ico\n").yellow());
             }
+            _ => {
+                println!("{}{}",("Match request case case:  ").cyan(),("FAILED").red());  // Sanity Check
+                determine_request("404.html", stream)
+            },
         };
         
         /*
@@ -96,5 +83,22 @@
         */
     }
 
+
+    fn determine_request(targe_file: &str, mut stream: TcpStream){
+        let contents = fs::read_to_string(targe_file).unwrap();
+        let length = contents.len();
+        let status = match targe_file{
+            "index.html" => "HTTP/1.1 200 OK",
+            "404.html" => "HTTP/1.1 404 NOT FOUND",
+            _ => "Failed to determine request status based on target file.",
+        };
+
+        println!("{}{}",("Response Status:  ").cyan(),status.blue());
+
+        let response =   // This should only be the response to "127.0.0.1:3000"
+            format!("{status}\r\nContent-Length: {length}\r\n{contents}");
+
+        stream.write_all(response.as_bytes()).unwrap();                
+    }
  }
 
